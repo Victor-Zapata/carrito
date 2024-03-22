@@ -1,18 +1,80 @@
+import { useState } from 'react';
 import './App.css'
 import Guitar from './components/Guitar'
 import Header from './components/Header'
+import { db } from './data/db';
 
 function App() {
 
+  const [guitars, setGuitars] = useState(db)
+  const [cart, setCart] = useState([])
+  const [totalPrice, setTotalPrice] = useState(0)
+
+  const addToCart = (item) => {
+    const itemExist = cart.findIndex(guitar => guitar.id === item.id)
+    if (itemExist >= 0 && item.quantity < 5) {
+      const updateCart = [...cart]
+      updateCart[itemExist].quantity++
+      setTotalPrice(totalPrice + updateCart[itemExist].price)
+      setCart(updateCart)
+    } else if (itemExist == -1) {
+      item.quantity = 1
+      setCart([...cart, item])
+      setTotalPrice(totalPrice + item.price)
+    }
+  }
+
+  const handleIncrement = (item) => {
+    const itemExist = cart.findIndex(guitar => guitar.id === item.id)
+    if (itemExist >= 0 && item.quantity < 5) {
+      const updateCart = [...cart]
+      updateCart[itemExist].quantity++
+      setTotalPrice(totalPrice + item.price)
+      setCart(updateCart)
+    }
+  }
+
+  const handleDecrement = (item) => {
+    const itemExist = cart.findIndex(guitar => guitar.id === item.id)
+    if (itemExist >= 0 && item.quantity > 1) {
+      const updateCart = [...cart]
+      updateCart[itemExist].quantity--
+      setTotalPrice(totalPrice - item.price)
+      setCart(updateCart)
+    } else if (item.quantity == 1) {
+      deleteGuitar(item)
+    }
+  }
+
+  const deleteGuitar = (guitar) => {
+    const cartFiltrado = cart.filter((item) => {
+      return item.id != guitar.id
+    })
+    setCart(cartFiltrado)
+    const guitarDelete = guitar.price * guitar.quantity
+    setTotalPrice(totalPrice - guitarDelete)
+  }
+
   return (
     <>
-      <Header />
+      <Header
+        cart={cart}
+        setCart={setCart}
+        handleIncrement={handleIncrement}
+        handleDecrement={handleDecrement}
+        totalPrice={totalPrice}
+        deleteGuitar={deleteGuitar}
+      />
 
       <main className="container-xl mt-5">
         <h2 className="text-center">Nuestra Colección</h2>
 
         <div className="row mt-5">
-          <Guitar />
+          {
+            guitars.map((item) => {
+              return <Guitar addToCart={addToCart} key={item.id} item={item} />
+            })
+          }
         </div>
       </main>
 
