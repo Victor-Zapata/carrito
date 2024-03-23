@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css'
 import Guitar from './components/Guitar'
 import Header from './components/Header'
@@ -6,9 +6,18 @@ import { db } from './data/db';
 
 function App() {
 
+  const getInitialData = () => {
+    const localStorageCart = localStorage.getItem('cart')
+    return localStorageCart ? JSON.parse(localStorageCart) : []
+  }
+
   const [guitars, setGuitars] = useState(db)
-  const [cart, setCart] = useState([])
+  const [cart, setCart] = useState(getInitialData)
   const [totalPrice, setTotalPrice] = useState(0)
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart))
+  }, [cart])
 
   const addToCart = (item) => {
     const itemExist = cart.findIndex(guitar => guitar.id === item.id)
