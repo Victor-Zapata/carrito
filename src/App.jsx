@@ -6,7 +6,7 @@ import { db } from './data/db';
 
 function App() {
 
-  const getInitialData = () => {
+  const getInitialData = () => { 
     const localStorageCart = localStorage.getItem('cart')
     return localStorageCart ? JSON.parse(localStorageCart) : []
   }
