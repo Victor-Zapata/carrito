@@ -1,11 +1,6 @@
-import { useState } from "react";
 import Cartitem from "./Cartitem";
 
-const Header = ({ cart, handleIncrement, handleDecrement, setCart, totalPrice, deleteGuitar }) => {
-
-    const deleteCart = () => {
-        setCart([])
-    }
+const Header = ({ cart, deleteCart, handleIncrement, handleDecrement, totalPrice, deleteGuitar }) => {
 
     return (
         <header className="py-5 header">
@@ -34,8 +29,6 @@ const Header = ({ cart, handleIncrement, handleDecrement, setCart, totalPrice, d
                                                 <th></th>
                                             </tr>
                                         </thead>
-
-
 
                                         <tbody>
                                             {

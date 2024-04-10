@@ -1,7 +1,6 @@
 
 const Guitar = ({ item, addToCart }) => {
     const { id, image, price, name, description } = item;
-
     return (
         <div className="col-md-6 col-lg-4 my-4 row align-items-center">
             <div className="col-4">
@@ -22,4 +21,3 @@ const Guitar = ({ item, addToCart }) => {
 }
 
 export default Guitar
-

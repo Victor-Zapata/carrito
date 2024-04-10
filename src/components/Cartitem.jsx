@@ -2,7 +2,6 @@ import React from 'react'
 
 const Cartitem = ({ item, handleIncrement, handleDecrement, deleteGuitar }) => {
     const { id, image, price, name, quantity } = item
-
     return (
         <tr>
             <td>
